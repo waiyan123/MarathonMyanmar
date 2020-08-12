@@ -15,18 +15,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //1st question
-//        val array = arrayOf("a","b","c")
-//        Log.d("test---","1)"+stripUrlParams("https://google.com?a=1&b=2&a=2",array))
-//        Log.d("test---","2)"+stripUrlParams("https://google.com?a=1&b=2"))
-//        Log.d("test---","3)"+stripUrlParams("https://google.com"))
-//        Log.d("test---","4)"+stripUrlParams("https://google.com?a=1&b=2&a=2&b=1&c=1&b=3",array))
+        val array = arrayOf("a","b","c")
+        Log.d("test---","1)"+stripUrlParams("https://google.com?a=1&b=2&a=2",array))
+        Log.d("test---","2)"+stripUrlParams("https://google.com?a=1&b=2"))
+        Log.d("test---","3)"+stripUrlParams("https://google.com"))
+        Log.d("test---","4)"+stripUrlParams("https://google.com?a=1&b=2&a=2&b=1&c=1&b=3",array))
 
 
         //2nd question
-        val oneArray = arrayOf("a -1 23","b234","c345-1")
+        val oneArray = arrayOf("a-1 23","b345 -24","c345 -1")
         val twoArray = arrayOf(
             arrayOf("a1","b2","c3"),
-            arrayOf("d4","e5","f6")
+            arrayOf("d4","e5","f6"),
+            arrayOf()
         )
         val threeArray = arrayOf(
             arrayOf(
@@ -38,8 +39,8 @@ class MainActivity : AppCompatActivity() {
 
         Log.d("test---","sum "+sum())
         Log.d("test---","sum "+sum(oneArray))
-//        Log.d("test---","sum "+sum(twoDArray = twoArray))
-//        Log.d("test---","sum "+sum(threeDArray = threeArray))
+        Log.d("test---","sum "+sum(twoDArray = twoArray))
+        Log.d("test---","sum "+sum(threeDArray = threeArray))
 
     }
 
@@ -111,7 +112,6 @@ class MainActivity : AppCompatActivity() {
             strList.clear()
             for(firstAry in twoDArray) {
                 for(str in firstAry) {
-//                    Log.d("test---",str)
                     strList.add(str)
                 }
             }
@@ -122,7 +122,6 @@ class MainActivity : AppCompatActivity() {
             for(firstAry in threeDArray) {
                 for(secondAry in firstAry) {
                     for(str in secondAry) {
-//                        Log.d("test---",str)
                         strList.add(str)
                     }
                 }
@@ -132,35 +131,38 @@ class MainActivity : AppCompatActivity() {
         if(strList.isNotEmpty()) {
             for(str in strList) {
                 var numberStr = ""
+                var isNegative = false
 
                 for(i in str.indices) {
                     val c = str[i]
+
+                    if(c.equals('-')) {
+                        isNegative = true
+                    }
 
                     if(c in '0'..'9') {
                         numberStr += c
 
                         if(i== str.length-1) {
 
-                            if(i!=0 && str[i-1].equals('-')) {
+                            if(isNegative) {
                                 result -= numberStr.toInt()
-                                Log.d("test---","negative $i")
                             }
                             else {
-                                Log.d("test---","index $i")
                                 result += numberStr.toInt()
                             }
+                            isNegative = false
                         }
                     }
                     else if( !numberStr.isNullOrBlank()) {
-                        if(i!=0 && str[i-1].equals('-')) {
-                            Log.d("test---","negative $i")
+                        if(isNegative) {
                             result -= numberStr.toInt()
                         }
                         else {
-                            Log.d("test---","index $i")
                             result += numberStr.toInt()
                         }
                         numberStr = ""
+                        isNegative = false
                     }
                 }
             }
